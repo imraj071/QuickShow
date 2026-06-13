@@ -9,9 +9,7 @@ import { serve } from "inngest/express";
 const app = express();
 const port = 3000;
 
-
-
-await connectDB()
+connectDB()
 
 //Middleware
 app.use(express.json())
