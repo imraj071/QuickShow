@@ -95,14 +95,14 @@ export const getShows = async (req,res) => {
         const shows = await Show.find({showDateTime: {$gte: new Date()}}).populate('movie').sort({showDateTime:1});
         
         //filter unique shows
-        const uniqueShows = new Set(shows.map(show => show.movie))
+       // const uniqueShows = new Set(shows.map(show => show.movie))
 
-        // const uniqueShows = Object.values(
-        //     shows.reduce((acc, show) => {
-        //         acc[show.movie._id] = show.movie;
-        //             return acc;
-        //     }, {})
-        // );
+        const uniqueShows = Object.values(
+            shows.reduce((acc, show) => {
+                acc[show.movie._id] = show.movie;
+                    return acc;
+            }, {})
+        );
 
         res.json({success: true, shows: Array.from(uniqueShows)})
 
