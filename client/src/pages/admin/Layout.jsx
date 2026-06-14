@@ -4,6 +4,7 @@ import AdminSidebar from '../../components/admin/AdminSidebar'
 import { Outlet } from 'react-router-dom'
 import { useAppContext } from '../../context/AppContext'
 import Loading from '../../components/Loading'
+import { useEffect } from 'react'
 
 const Layout = () => {
 
