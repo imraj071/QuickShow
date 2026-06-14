@@ -27,7 +27,7 @@ export const getDashboardData = async (req,res) => {
         res.json({success: true, dashboardData})
 
     } catch(error){
-        console.log();
+        console.log(error);
         res.json({success: false, message: error.message})
     }
 }
@@ -37,7 +37,7 @@ export const getAllShows = async(req,res) => {
 
     try{
 
-        const shows = (await Show.find({showDateTime: {$gte: new Date()}}).populate('movie')).toSorted({shwoDateTime:1});
+        const shows = (await Show.find({showDateTime: {$gte: new Date()}}).populate('movie')).sort({showDateTime:1});
         res.json({success:true, shows})
 
 
