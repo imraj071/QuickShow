@@ -15,7 +15,7 @@ const syncUserCreation = inngest.createFunction(
         const userData = {
             _id: id,
             email: email_addresses[0].email_address,
-            name: first_name+last_name,
+            name: first_name+" " + last_name,
             image: image_url
         }
 
@@ -91,11 +91,11 @@ const sendBookingConfirmationEmail = inngest.createFunction(
 
         await sendEmail({
             to: booking.user.email,
-            subject: `Payment Confirmation" "${booking.show.movie.title}" booked!`,
+            subject: `Payment Confirmation "${booking.show.movie.title}" booked!`,
             body: `<div style='font-family: Arial, sans-serif; line-height:1.5;'>
                     <h2>Hi ${booking.user.name},</h2>
                     <p>
-                         Your booking for <strong style='color: #F84565;'>""${booking.show.movie.title}"</strong> is confiemd.
+                         Your booking for <strong style='color: #F84565;'>"${booking.show.movie.title}"</strong> is confirmed.
                     </p>
                     <p>
                     <strong>Date:</strong> ${new Date(booking.show.showDateTime).toLocaleDateString('en-US', {timeZone: 'Asia/Kolkata'})}<br/>
