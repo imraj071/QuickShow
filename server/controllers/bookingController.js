@@ -33,7 +33,7 @@ export const createBooking = async (req,res) => {
         const {origin} = req.headers;
 
         // Check if the seat is available for the selected show
-        const isAvailable = checkSeatsAvailibity(showId, selectedSeats);
+        const isAvailable = await checkSeatsAvailibity(showId, selectedSeats);
 
         if(!isAvailable){
             return res.json({success: false, message: "Selected seats are not available"})
