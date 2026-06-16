@@ -25,9 +25,9 @@ body{
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appreance: none;
+  -webkit-appearance: none;
 }
 
-::webkit-calendar-picker-indicator {
+::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
