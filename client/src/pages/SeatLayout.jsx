@@ -53,7 +53,7 @@ const SeatLayout = () => {
 
   const renderSeats = (row,count = 9) => (
     <div key={row} className='flex gap-2 mt-2'>
-      <div className='flex flex-wrap items-centerr justify-center gap-2'>
+      <div className='flex flex-wrap items-center justify-center gap-2'>
         {Array.from({length:count}, (_,i) => {
           const seatId = `${row}${i+1}`;
           return (
