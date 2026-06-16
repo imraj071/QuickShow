@@ -3,6 +3,7 @@ import User from "../models/User.js"
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
 import sendEmail from "../configs/nodeMailer.js";
+import connectDB from "../configs/db.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "movie-ticket-booking" });
@@ -11,6 +12,7 @@ export const inngest = new Inngest({ id: "movie-ticket-booking" });
 const syncUserCreation = inngest.createFunction(
     {id: 'sync-user-from-clerk', triggers: { event: 'clerk/user.created'},},
     async ({event}) => {
+        await connectDB();
         const {id, first_name, last_name, email_addresses, image_url} = event.data
         const userData = {
             _id: id,
@@ -27,6 +29,8 @@ const syncUserCreation = inngest.createFunction(
 const syncUserDeletion = inngest.createFunction(
     {id: 'delete-user-from-clerk', triggers: { event: 'clerk/user.deleted'},},
     async ({event}) => {
+
+        await connectDB();
         
         const {id} = event.data
 
@@ -40,6 +44,7 @@ const syncUserUpdation = inngest.createFunction(
     {id: 'update-user-from-clerk', triggers: { event: 'clerk/user.updated'},},
     async ({event}) => {
         
+        await connectDB();
         const {id, first_name, last_name, email_addresses, image_url} = event.data
         const userData = {
             _id: id,
@@ -57,6 +62,8 @@ const syncUserUpdation = inngest.createFunction(
 const releaseSeatsAndDeleteBooking = inngest.createFunction(
     {id: 'release-seats-delete-booking',triggers:{event: "app/checkpayment"}},
     async ({event, step})=>{
+
+        await connectDB();
         const tenMinutesLater = new Date( Date.now() + 10*60*1000);
         await step.sleepUntil('wait-for-10-minutes', tenMinutesLater);
 
@@ -82,6 +89,8 @@ const releaseSeatsAndDeleteBooking = inngest.createFunction(
 const sendBookingConfirmationEmail = inngest.createFunction(
     {id: 'send-booking-confirmation-email',triggers:{event: "app/show.booked"}},
     async ({event,step}) => {
+
+        await connectDB();
         const {bookingId} = event.data;
 
         const booking = await Booking.findById(bookingId).populate({
@@ -117,6 +126,8 @@ const sendBookingConfirmationEmail = inngest.createFunction(
 const sendShowReminers = inngest.createFunction(
     {id: "send-show-reminders", triggers: {cron: "0 */8 * * *"}}, // Eevry 8 hours
     async ({step}) => {
+
+        await connectDB();
         const now = new Date();
         const in8Hours = new Date(now.getTime() + 8*60*60*1000);
         const windowStart = new Date(in8Hours.getTime() - 10*60*1000);
@@ -192,6 +203,8 @@ const sendShowReminers = inngest.createFunction(
 const sendNewShowNotifications = inngest.createFunction(
     {id: "send-new-show-notifications", triggers: {event: "app/show.added"}},
     async ({event}) => {
+
+        await connectDB();
         const {movieTitle} = event.data;
 
         const users = await User.find({})
