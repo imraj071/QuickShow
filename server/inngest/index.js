@@ -135,7 +135,7 @@ const sendShowReminers = inngest.createFunction(
         //prepare reminder tasks
         const reminderTasks = await step.run("preapre-reminder-tasks", async() => {
             const shows = await Show.find({
-                showTime: {$gte: windowStart, $lte: in8hours},
+                showTime: {$gte: windowStart, $lte: in8Hours},
 
             }).populate('movie');
 
